@@ -1,11 +1,11 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;500;600;700&display=swap');
 @import "tailwindcss";
 
 /* =============================================
    Design Tokens
    ============================================= */
 :root {
-  --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-primary: 'Josefin Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
 
   /* Glass Variables */
   --glass-blur: 24px;
@@ -30,8 +30,7 @@ body {
   font-family: var(--font-primary);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-image: linear-gradient(90.8deg, rgba(27, 53, 68, 1) 2.2%, rgba(110, 180, 135, 1) 84%);
-  color: #ffffff;
+  background-color: #0f172a; /* Dark fallback, dynamic gradients handled in React */
   min-height: 100vh;
   overflow-x: hidden;
 }
@@ -40,27 +39,26 @@ body {
    Deep Liquid Glass Components
    ============================================= */
 .glass {
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.02) 100%);
+  background: var(--glass-bg, linear-gradient(135deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.02) 100%));
   backdrop-filter: blur(var(--glass-blur)) saturate(160%);
   -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(160%);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-top: 1px solid rgba(255, 255, 255, 0.4);
-  border-left: 1px solid rgba(255, 255, 255, 0.4);
+  border: 1px solid var(--glass-border, rgba(255, 255, 255, 0.1));
+  border-top: 1px solid var(--glass-border-light, rgba(255, 255, 255, 0.4));
+  border-left: 1px solid var(--glass-border-light, rgba(255, 255, 255, 0.4));
   border-radius: 20px;
   box-shadow:
-    0 10px 40px -10px rgba(0, 0, 0, 0.5),
-    inset 0 1px 0 rgba(255, 255, 255, 0.2),
-    inset 1px 0 0 rgba(255, 255, 255, 0.1);
+    var(--glass-shadow, 0 10px 40px -10px rgba(0, 0, 0, 0.5)),
+    inset 0 1px 0 var(--glass-highlight, rgba(255, 255, 255, 0.2)),
+    inset 1px 0 0 var(--glass-highlight-subtle, rgba(255, 255, 255, 0.1));
   transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
 .glass:hover {
-  background: rgba(255, 255, 255, 0.12);
+  background: var(--glass-bg-hover, rgba(255, 255, 255, 0.12));
   box-shadow:
-    0 12px 40px 0 rgba(0, 0, 0, 0.35),
-    inset 0 0 0 1px rgba(255, 255, 255, 0.1),
-    inset 0 1px 1px rgba(255, 255, 255, 0.3);
-  transform: translateY(-2px);
+    var(--glass-shadow-hover, 0 12px 40px 0 rgba(0, 0, 0, 0.35)),
+    inset 0 0 0 1px var(--glass-highlight-subtle, rgba(255, 255, 255, 0.1)),
+    inset 0 1px 1px var(--glass-border-light, rgba(255, 255, 255, 0.3));
 }
 
 .glass-nav {
@@ -186,4 +184,48 @@ body {
   background-size: 600px 100%;
   animation: shimmer 1.6s infinite linear;
   border-radius: 12px;
+}
+
+/* =============================================
+   Weather Effects
+   ============================================= */
+.weather-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.drop {
+  position: absolute;
+  background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0.6));
+  width: 2px;
+  height: 40px;
+  border-radius: 2px;
+  animation: rain linear infinite;
+}
+
+@keyframes rain {
+  0% { transform: translateY(-10vh); opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { transform: translateY(110vh); opacity: 0; }
+}
+
+.flake {
+  position: absolute;
+  background: radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(255,255,255,0) 100%);
+  border-radius: 50%;
+  animation: snow linear infinite;
+}
+
+@keyframes snow {
+  0% { transform: translateY(-10vh) translateX(0) rotate(0deg); opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { transform: translateY(110vh) translateX(40px) rotate(360deg); opacity: 0; }
 }
