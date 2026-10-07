@@ -30,11 +30,7 @@ app.get('/api/weather', async (req, res) => {
     let forecastData = null;
     let resolvedName = '';
 
-    // Edge case mappings for common regions that OpenWeather struggles with
     let searchQuery = city;
-    if (city && city.toLowerCase().trim() === 'kashmir') {
-      searchQuery = 'Srinagar';
-    }
 
     if (lat && lon) {
       // 1. Fetch by exact coordinates
