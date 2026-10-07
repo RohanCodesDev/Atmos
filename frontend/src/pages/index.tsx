@@ -163,10 +163,41 @@ export default function Home() {
   const displayHighTemp = todayForecast ? todayForecast.tempMax : highTemp;
   const displayLowTemp = todayForecast ? todayForecast.tempMin : lowTemp;
 
+  const pageTitle = weatherData ? `Weather in ${weatherData.name} | Atmos` : 'Atmos - Premium Weather Dashboard';
+  const pageDescription = weatherData 
+    ? `Current weather in ${weatherData.name}: ${Math.round(weatherData.main.temp)}°${unit === 'metric' ? 'C' : 'F'}, ${weatherData.weather[0].description}. Get the 5-day forecast, air quality index, and live weather conditions on Atmos.`
+    : 'Atmos is a highly accurate, beautifully designed global weather dashboard providing real-time forecasts, AQI, and dynamic weather visuals.';
+  const pageUrl = 'https://atmos-weather.vercel.app';
+  const pageImage = `${pageUrl}/atmoslogo.svg`; // Replace with actual banner if available
+
   return (
     <>
       <Head>
-        <title>Atmos - Weather Dashboard</title>
+        <title>{pageTitle}</title>
+        <meta name="description" content={pageDescription} />
+        <meta name="keywords" content="weather, forecast, atmos, live weather, weather dashboard, aqi, precipitation, temperature, climate" />
+        <meta name="author" content="RohanCodesDev" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0" />
+        <meta name="theme-color" content={isLightMode ? '#ffffff' : '#000000'} />
+        
+        {/* Open Graph / Facebook */}
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content={pageUrl} />
+        <meta property="og:title" content={pageTitle} />
+        <meta property="og:description" content={pageDescription} />
+        <meta property="og:image" content={pageImage} />
+        <meta property="og:site_name" content="Atmos Weather" />
+
+        {/* Twitter */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:url" content={pageUrl} />
+        <meta name="twitter:title" content={pageTitle} />
+        <meta name="twitter:description" content={pageDescription} />
+        <meta name="twitter:image" content={pageImage} />
+
+        {/* Canonical Link */}
+        <link rel="canonical" href={pageUrl} />
+        <meta name="robots" content="index, follow" />
       </Head>
       <div 
         style={{
