@@ -13,6 +13,42 @@ app.get('/health', (req, res) => {
   res.status(200).json({ status: 'ok', timestamp: new Date().toISOString() });
 });
 
+// Autocomplete Search Endpoint
+app.get('/api/search', async (req, res) => {
+  const { q } = req.query;
+  if (!q) return res.json([]);
+
+  try {
+    const apiKey = process.env.OPENWEATHER_API_KEY;
+    const geoUrl = `https://api.openweathermap.org/geo/1.0/direct?q=${encodeURIComponent(q)}&limit=5&appid=${apiKey}`;
+    const geoResponse = await fetch(geoUrl);
+    
+    if (!geoResponse.ok) {
+      throw new Error('Geocoding API error');
+    }
+    
+    const geoData = await geoResponse.json();
+    
+    // Map data to a cleaner format and deduplicate similar names (optional)
+    const suggestions = geoData.map(item => {
+      const nameParts = [item.name, item.state, item.country].filter(Boolean);
+      return {
+        name: item.name,
+        state: item.state,
+        country: item.country,
+        lat: item.lat,
+        lon: item.lon,
+        displayName: [...new Set(nameParts)].join(', ')
+      };
+    });
+
+    res.json(suggestions);
+  } catch (error) {
+    console.error('Search API Error:', error.message);
+    res.status(500).json({ error: 'Failed to fetch suggestions' });
+  }
+});
+
 app.get('/api/weather', async (req, res) => {
   const { city, lat, lon, units = 'metric' } = req.query;
 
