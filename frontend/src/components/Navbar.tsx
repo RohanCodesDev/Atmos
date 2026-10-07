@@ -34,7 +34,7 @@ export const Navbar = ({
           <Search size={20} style={{ opacity: 0.6, flexShrink: 0 }} />
           <input
             type="text"
-            placeholder="Search for a city..."
+            placeholder="Search for a city, state, or country..."
             onKeyDown={(e) => {
               if (e.key === 'Enter' && onSearch) {
                 onSearch(e.currentTarget.value);
