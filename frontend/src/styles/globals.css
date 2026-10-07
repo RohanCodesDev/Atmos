@@ -292,6 +292,7 @@ body {
   .dashboard-wrapper {
     padding: 17rem 1rem 3rem 1rem !important;
   }
+
   .logo-container {
     justify-content: center !important;
   }
@@ -317,7 +318,7 @@ body {
     max-width: 100% !important;
     width: 100% !important;
     flex-direction: column !important;
-    gap: 14px !important;
+    margin-top: -15px !important;
   }
 
   .search-container>div {
