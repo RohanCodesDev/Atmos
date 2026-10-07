@@ -2,18 +2,38 @@ import { Wind, Search, Navigation, Settings } from 'lucide-react';
 import { TiltCard } from './TiltCard';
 import { useState, useEffect, useRef } from 'react';
 
+interface NavbarProps {
+  textColor: string;
+  isLightMode: boolean;
+  isControlsOpen: boolean;
+  setIsControlsOpen: (open: boolean) => void;
+  onSearch: (query: string) => void;
+  onLocate: () => void;
+  unit: string;
+  setUnit: (unit: string) => void;
+}
+
+interface Suggestion {
+  name: string;
+  state: string;
+  country: string;
+  lat: number;
+  lon: number;
+  displayName: string;
+}
+
 export const Navbar = ({
   textColor, isLightMode, isControlsOpen, setIsControlsOpen, onSearch, onLocate, unit, setUnit
-}: any) => {
+}: NavbarProps) => {
   const [query, setQuery] = useState('');
-  const [suggestions, setSuggestions] = useState<any[]>([]);
+  const [suggestions, setSuggestions] = useState<Suggestion[]>([]);
   const [showDropdown, setShowDropdown] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   // Handle clicking outside to close dropdown
   useEffect(() => {
-    const handleClickOutside = (event: any) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
         setShowDropdown(false);
       }
     };
