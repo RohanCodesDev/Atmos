@@ -16,7 +16,6 @@ import { AqiCard } from '../components/AqiCard';
 import { PrecipitationChart } from '../components/PrecipitationChart';
 import { SunArc } from '../components/SunArc';
 import { MapCard } from '../components/MapCard';
-import { AlertBanner } from '../components/AlertBanner';
 
 const TEMP_MAP: Record<string, string> = {
   sunny: '75', cloudy: '62', rainy: '55', snow: '28',
@@ -65,6 +64,7 @@ export default function Home() {
   const windSpeed = weatherData 
     ? (unit === 'metric' ? Math.round(weatherData.wind.speed * 3.6) : Math.round(weatherData.wind.speed)) 
     : (weather === 'snow' ? 18 : 12);
+  const windDeg = weatherData ? weatherData.wind.deg : 0;
   const pressure = weatherData ? weatherData.main.pressure : 1012;
   const visibility = weatherData ? (weatherData.visibility / 1609).toFixed(1) : (weather === 'rainy' ? 2.5 : 10);
   const highTemp = weatherData ? Math.round(weatherData.main.temp_max) : parseInt(currentTemp as string) + 5;
@@ -77,6 +77,25 @@ export default function Home() {
 
   const sunriseTime = weatherData ? formatLocalTime(weatherData.sys.sunrise, weatherData.timezone) : '6:42 AM';
   const sunsetTime = weatherData ? formatLocalTime(weatherData.sys.sunset, weatherData.timezone) : '7:15 PM';
+
+  const formatDescription = (desc: string) => {
+    switch (desc.toLowerCase()) {
+      case 'few clouds':
+      case 'scattered clouds':
+        return 'Partly Cloudy';
+      case 'broken clouds':
+      case 'overcast clouds':
+        return 'Mostly Cloudy';
+      case 'clear sky':
+        return 'Clear Sky';
+      case 'light rain':
+        return 'Light Rain';
+      case 'moderate rain':
+        return 'Rain';
+      default:
+        return desc.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+    }
+  };
 
   const getDailyForecast = () => {
     if (!forecastData || !forecastData.list) return [];
@@ -97,7 +116,7 @@ export default function Home() {
           tempMax: item.main.temp_max,
           tempMin: item.main.temp_min,
           condition: item.weather[0].main.toLowerCase(),
-          description: item.weather[0].description,
+          description: formatDescription(item.weather[0].description),
           isNoon: localHour >= 11 && localHour <= 15
         });
       } else {
@@ -107,7 +126,7 @@ export default function Home() {
         // Use daytime icon if available
         if (localHour >= 11 && localHour <= 15 && !existing.isNoon) {
           existing.condition = item.weather[0].main.toLowerCase();
-          existing.description = item.weather[0].description;
+          existing.description = formatDescription(item.weather[0].description);
           existing.isNoon = true;
         }
       }
@@ -133,7 +152,7 @@ export default function Home() {
         time: i === 0 ? 'Now' : `${hour} ${ampm}`,
         temp: Math.round(item.main.temp),
         condition: item.weather[0].main.toLowerCase(),
-        description: item.weather[0].description,
+        description: formatDescription(item.weather[0].description),
         pop: Math.round(item.pop * 100)
       };
     });
@@ -213,9 +232,7 @@ export default function Home() {
           </div>
         )}
 
-        <AlertBanner weatherData={weatherData} />
-
-        <div style={{ zIndex: 10, display: 'flex', gap: '2rem', width: '100%', maxWidth: '1400px', padding: '2rem 2rem 3rem 2rem', paddingTop: weatherData && (weatherData.weather[0].main.toLowerCase().includes('rain') || weatherData.weather[0].main.toLowerCase().includes('thunderstorm') || weatherData.weather[0].main.toLowerCase().includes('snow') || weatherData.wind.speed > 15 || weatherData.main.temp > 308.15 || weatherData.main.temp < 273.15) ? '2rem' : '7rem', boxSizing: 'border-box', opacity: loading ? 0.3 : 1, transition: 'opacity 0.5s ease', pointerEvents: loading ? 'none' : 'auto', margin: '0 auto' }}>
+        <div style={{ zIndex: 10, display: 'flex', gap: '2rem', width: '100%', maxWidth: '1400px', padding: '7rem 2rem 3rem 2rem', boxSizing: 'border-box', opacity: loading ? 0.3 : 1, transition: 'opacity 0.5s ease', pointerEvents: loading ? 'none' : 'auto' }}>
           
           <div style={{ flex: '0 0 320px', display: 'flex', flexDirection: 'column', gap: '2rem' }}>
             <WeatherHero 
@@ -228,6 +245,7 @@ export default function Home() {
               highTemp={displayHighTemp}
               lowTemp={displayLowTemp}
               unitSymbol={unitSymbol}
+              weatherData={weatherData}
             />
             <WeeklyForecast 
               dailyForecast={dailyForecast}
@@ -261,6 +279,7 @@ export default function Home() {
               feelsLike={feelsLike}
               currentTemp={currentTemp}
               windSpeed={windSpeed}
+              windDeg={windDeg}
               time={time}
               sunriseTime={sunriseTime}
               sunsetTime={sunsetTime}

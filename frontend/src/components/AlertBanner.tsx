@@ -40,14 +40,14 @@ export const AlertBanner = ({ weatherData }: any) => {
   const { bg, border } = getColors();
 
   return (
-    <div className="anim-fade-in-up" style={{ width: '100%', maxWidth: '1400px', margin: '0 auto', padding: '7rem 2rem 0 2rem', position: 'relative', zIndex: 11 }}>
+    <div className="anim-fade-in-up" style={{ width: '100%' }}>
       <div style={{ 
-        background: bg, color: 'white', padding: '1rem 1.5rem', borderRadius: '12px', 
-        display: 'flex', alignItems: 'center', gap: '1rem', 
-        borderLeft: `6px solid ${border}`, boxShadow: '0 10px 30px rgba(0,0,0,0.2)' 
+        background: bg, color: 'white', padding: '0.8rem 1rem', borderRadius: '12px', 
+        display: 'flex', alignItems: 'center', gap: '0.75rem', 
+        borderLeft: `4px solid ${border}`, boxShadow: '0 4px 15px rgba(0,0,0,0.1)' 
       }}>
-        <AlertTriangle size={24} />
-        <span style={{ fontWeight: 600, fontSize: '0.95rem', letterSpacing: '0.02em' }}>
+        <AlertTriangle size={20} style={{ flexShrink: 0 }} />
+        <span style={{ fontWeight: 600, fontSize: '0.85rem', letterSpacing: '0.02em', textAlign: 'left' }}>
           {alertMessage}
         </span>
       </div>

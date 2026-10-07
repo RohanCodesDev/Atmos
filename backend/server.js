@@ -23,18 +23,19 @@ app.get('/api/weather', async (req, res) => {
 
     let weatherUrl = '';
     let forecastUrl = '';
-    
+
     if (lat && lon) {
       weatherUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=${units}&appid=${apiKey}`;
       forecastUrl = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&units=${units}&appid=${apiKey}`;
     } else {
       weatherUrl = `https://api.openweathermap.org/data/2.5/weather?q=${encodeURIComponent(city)}&units=${units}&appid=${apiKey}`;
       forecastUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${encodeURIComponent(city)}&units=${units}&appid=${apiKey}`;
+
     }
 
     // Call OpenWeather Current Weather API
     const weatherResponse = await fetch(weatherUrl);
-    
+
     if (!weatherResponse.ok) {
       if (weatherResponse.status === 404) {
         return res.status(404).json({ error: 'Location not found' });

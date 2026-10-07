@@ -1,8 +1,9 @@
 import { MapPin, AlertCircle, Sun, Cloud, CloudRain, CloudSnow } from 'lucide-react';
 import { TiltCard } from './TiltCard';
+import { AlertBanner } from './AlertBanner';
 
 export const WeatherHero = ({ 
-  weather, isLightMode, cityName, currentTemp, time, description, highTemp, lowTemp, unitSymbol 
+  weather, isLightMode, cityName, currentTemp, time, description, highTemp, lowTemp, unitSymbol, weatherData
 }: any) => {
   const HeroIcon = weather === 'sunny' ? Sun : weather === 'cloudy' ? Cloud : weather === 'rainy' ? CloudRain : CloudSnow;
 
@@ -25,6 +26,10 @@ export const WeatherHero = ({
           <div style={{ display: 'flex', justifyContent: 'center', gap: '1.5rem', opacity: 0.9, fontSize: '1.2rem', fontWeight: 500 }}>
             <span>H: {highTemp}{unitSymbol}</span>
             <span>L: {lowTemp}{unitSymbol}</span>
+          </div>
+
+          <div style={{ marginTop: '1rem', width: '100%' }}>
+            <AlertBanner weatherData={weatherData} />
           </div>
         </div>
       </TiltCard>

@@ -3,12 +3,12 @@ import { TiltCard } from './TiltCard';
 
 export const WeeklyForecast = ({ dailyForecast, isLightMode, unitSymbol }: any) => {
   return (
-    <div className="anim-fade-in-up delay-100" style={{ display: 'flex', flex: 1 }}>
-      <TiltCard style={{ padding: '1.5rem', flex: 1, display: 'flex', flexDirection: 'column', width: '100%' }}>
+    <div className="anim-fade-in-up delay-100" style={{ display: 'flex' }}>
+      <TiltCard style={{ padding: '1.5rem', display: 'flex', flexDirection: 'column', width: '100%' }}>
          <h3 style={{ fontSize: '0.85rem', textTransform: 'uppercase', letterSpacing: '0.1em', opacity: 0.7, marginBottom: '1rem', display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
            <Cloud size={16} /> 5-Day Forecast
          </h3>
-         <div style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem', flex: 1, justifyContent: 'space-between' }}>
+         <div style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem', justifyContent: 'space-between' }}>
            {dailyForecast.length > 0 ? dailyForecast.map((df: any, i: number) => {
              const isRainy = df.condition.includes('rain');
              const isSunny = df.condition.includes('clear');

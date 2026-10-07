@@ -1,8 +1,8 @@
-import { Thermometer, Wind, Sunrise, Sunset, Droplets, Eye, Gauge } from 'lucide-react';
+import { Thermometer, Wind, Sunrise, Sunset, Droplets, Eye, Gauge, Navigation } from 'lucide-react';
 import { MetricCard } from './MetricCard';
 
 export const WeatherStats = ({ 
-  feelsLike, currentTemp, windSpeed, time, sunriseTime, sunsetTime, humidity, visibility, pressure, unitSymbol, unit 
+  feelsLike, currentTemp, windSpeed, windDeg, time, sunriseTime, sunsetTime, humidity, visibility, pressure, unitSymbol, unit 
 }: any) => {
   return (
     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '2rem', flex: 1 }}>
@@ -18,7 +18,12 @@ export const WeatherStats = ({
           title="Wind" 
           icon={Wind} 
           value={`${windSpeed} ${unit === 'metric' ? 'km/h' : 'mph'}`} 
-          sub="Current wind speed" 
+          sub={(
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
+              <Navigation size={12} style={{ transform: `rotate(${windDeg}deg)` }} />
+              <span>Current wind speed</span>
+            </div>
+          )}
        />
        <MetricCard 
           delay="delay-300" 
@@ -38,8 +43,8 @@ export const WeatherStats = ({
           delay="delay-100" 
           title="Visibility" 
           icon={Eye} 
-          value={`${visibility} mi`} 
-          sub={(visibility as number) > 5 ? 'Perfectly clear view.' : 'Reduced visibility.'} 
+          value={`${visibility} ${unit === 'metric' ? 'km' : 'mi'}`} 
+          sub={(visibility as number) > (unit === 'metric' ? 8 : 5) ? 'Perfectly clear view.' : 'Reduced visibility.'} 
        />
        <MetricCard 
           delay="delay-200" 

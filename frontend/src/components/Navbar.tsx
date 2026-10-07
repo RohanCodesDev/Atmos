@@ -32,14 +32,12 @@ export const Navbar = ({
               padding: '0.85rem 1rem 0.85rem 3.5rem', 
               borderRadius: '50px', 
               fontSize: '1rem',
-              background: isLightMode ? 'rgba(0,0,0,0.05)' : 'rgba(255,255,255,0.08)',
-              border: `1px solid ${isLightMode ? 'rgba(0,0,0,0.1)' : 'rgba(255,255,255,0.2)'}`,
+              background: 'transparent',
+              border: 'none',
               color: textColor,
               outline: 'none',
               transition: 'background 0.3s'
             }}
-            onFocus={(e) => e.target.style.background = isLightMode ? 'rgba(0,0,0,0.08)' : 'rgba(255,255,255,0.12)'}
-            onBlur={(e) => e.target.style.background = isLightMode ? 'rgba(0,0,0,0.05)' : 'rgba(255,255,255,0.08)'}
           />
         </TiltCard>
         <TiltCard style={{ borderRadius: '50px', padding: 0, flexShrink: 0 }}>
