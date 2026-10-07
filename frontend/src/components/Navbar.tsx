@@ -1,23 +1,30 @@
 import { Wind, Search, Navigation, Settings } from 'lucide-react';
 import { TiltCard } from './TiltCard';
 
-export const Navbar = ({ 
-  textColor, isLightMode, isControlsOpen, setIsControlsOpen, onSearch, onLocate, unit, setUnit 
+export const Navbar = ({
+  textColor, isLightMode, isControlsOpen, setIsControlsOpen, onSearch, onLocate, unit, setUnit
 }: any) => {
   return (
     <div className="navbar-container" style={{ position: 'fixed', top: 0, left: 0, right: 0, padding: '2rem 3rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center', zIndex: 30, pointerEvents: 'none' }}>
-      
+
       {/* Logo */}
-      <div style={{ pointerEvents: 'auto' }}>
-        <TiltCard glass={false} className="anim-fade-in" style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', width: '200px', cursor: 'pointer' }}>
-          <Wind size={32} strokeWidth={2.5} />
-          <span style={{ fontSize: '1.75rem', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase' }}>ATMOS</span>
-        </TiltCard>
+      <div className="logo-container anim-fade-in" style={{ width: '200px', display: 'flex', alignItems: 'center', pointerEvents: 'auto' }}>
+        <img
+          src="/atmoslogo.svg"
+          alt="Atmos Logo"
+          className="atmos-logo"
+          style={{
+            filter: isLightMode ? 'none' : 'invert(1) brightness(2)',
+            cursor: 'pointer',
+            transition: 'filter 0.5s ease'
+          }}
+        />
       </div>
 
       {/* Search Bar */}
       <div className="search-container anim-fade-in" style={{ display: 'flex', alignItems: 'center', gap: '1rem', width: '100%', maxWidth: '500px', pointerEvents: 'auto' }}>
-        <style dangerouslySetInnerHTML={{__html: `
+        <style dangerouslySetInnerHTML={{
+          __html: `
           .search-wrapper input::placeholder {
             color: ${textColor};
             opacity: 0.5;
@@ -25,16 +32,16 @@ export const Navbar = ({
         `}} />
         <div className="search-wrapper glass" style={{ display: 'flex', alignItems: 'center', padding: '0.85rem 1.25rem', width: '100%', borderRadius: '50px' }}>
           <Search size={20} style={{ opacity: 0.6, flexShrink: 0 }} />
-          <input 
-            type="text" 
-            placeholder="Search for a city..." 
+          <input
+            type="text"
+            placeholder="Search for a city..."
             onKeyDown={(e) => {
               if (e.key === 'Enter' && onSearch) {
                 onSearch(e.currentTarget.value);
               }
             }}
-            style={{ 
-              width: '100%', 
+            style={{
+              width: '100%',
               marginLeft: '0.75rem',
               fontSize: '1rem',
               background: 'transparent',
@@ -52,22 +59,22 @@ export const Navbar = ({
           </button>
         </TiltCard>
       </div>
-      
+
       {/* Settings Button & Unit Toggle (Top Right) */}
       <div className="settings-container" style={{ width: '200px', display: 'flex', justifyContent: 'flex-end', gap: '1rem', pointerEvents: 'auto' }}>
         <TiltCard style={{ borderRadius: '50px', padding: 0 }}>
-          <button 
+          <button
             title="Toggle Units"
             onClick={() => setUnit(unit === 'metric' ? 'imperial' : 'metric')}
-            style={{ 
-              padding: '0.9rem 1.2rem', 
-              borderRadius: '50px', 
-              display: 'flex', 
-              alignItems: 'center', 
-              justifyContent: 'center', 
-              cursor: 'pointer', 
-              border: 'none', 
-              background: 'transparent', 
+            style={{
+              padding: '0.9rem 1.2rem',
+              borderRadius: '50px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              cursor: 'pointer',
+              border: 'none',
+              background: 'transparent',
               color: textColor,
               fontWeight: 700,
               fontSize: '1rem'
@@ -79,18 +86,18 @@ export const Navbar = ({
           </button>
         </TiltCard>
         <TiltCard style={{ borderRadius: '50%', padding: 0 }}>
-          <button 
+          <button
             title="Developer Controls"
             onClick={() => setIsControlsOpen(!isControlsOpen)}
-            style={{ 
-              padding: '0.9rem', 
-              borderRadius: '50%', 
-              display: 'flex', 
-              alignItems: 'center', 
-              justifyContent: 'center', 
-              cursor: 'pointer', 
-              border: 'none', 
-              background: 'transparent', 
+            style={{
+              padding: '0.9rem',
+              borderRadius: '50%',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              cursor: 'pointer',
+              border: 'none',
+              background: 'transparent',
               color: textColor,
               transition: 'transform 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
               transform: isControlsOpen ? 'rotate(90deg)' : 'rotate(0deg)'
