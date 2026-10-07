@@ -266,6 +266,10 @@ body {
   }
 }
 
+.dashboard-wrapper {
+  padding: 8rem 2rem 3rem 2rem;
+}
+
 /* =============================================
    Responsive Design (Mobile & Tablet)
    ============================================= */
@@ -285,6 +289,9 @@ body {
 }
 
 @media (max-width: 768px) {
+  .dashboard-wrapper {
+    padding: 17rem 1rem 3rem 1rem !important;
+  }
   .logo-container {
     justify-content: center !important;
   }
@@ -295,6 +302,7 @@ body {
     margin-top: -15px !important;
     margin-bottom: -45px !important;
     margin-left: 0 !important;
+    transform: translate(0px, -20px) !important;
   }
 
   .navbar-container {
@@ -309,6 +317,7 @@ body {
     max-width: 100% !important;
     width: 100% !important;
     flex-direction: column !important;
+    gap: 14px !important;
   }
 
   .search-container>div {
