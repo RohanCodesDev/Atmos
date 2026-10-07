@@ -8,6 +8,11 @@ const PORT = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
 
+// Health Check Endpoint (For Render/Hosting)
+app.get('/health', (req, res) => {
+  res.status(200).json({ status: 'ok', timestamp: new Date().toISOString() });
+});
+
 app.get('/api/weather', async (req, res) => {
   const { city, lat, lon, units = 'metric' } = req.query;
 
