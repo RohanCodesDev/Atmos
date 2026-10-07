@@ -1,24 +1,29 @@
 import { AlertTriangle } from 'lucide-react';
 
-export const AlertBanner = ({ weatherData }: any) => {
+export const AlertBanner = ({ weatherData, unit = 'metric' }: any) => {
   if (!weatherData) return null;
 
   const condition = weatherData.weather[0].main.toLowerCase();
-  const windSpeed = weatherData.wind.speed; // usually in m/s from API
+  const windSpeed = weatherData.wind.speed; // m/s (metric) or mph (imperial)
+  const temp = weatherData.main.temp;
   
   let alertMessage = null;
-  let severity = 'warning'; // 'warning' | 'danger'
+  let severity = 'warning'; // 'warning' | 'danger' | 'info'
+
+  const isHighWind = unit === 'metric' ? windSpeed > 15 : windSpeed > 33; // 15m/s or 33mph
+  const isFreezing = unit === 'metric' ? temp < 0 : temp < 32;
+  const isExtremeHeat = unit === 'metric' ? temp > 35 : temp > 95;
 
   if (condition.includes('thunderstorm') || condition.includes('tornado') || condition.includes('squall')) {
     alertMessage = `Severe Weather Warning: ${weatherData.weather[0].description}. Please stay indoors and stay safe.`;
     severity = 'danger';
-  } else if (windSpeed > 15) { // 15 m/s is ~54 km/h (High wind)
+  } else if (isHighWind) { 
     alertMessage = 'High Wind Advisory: Expect strong gusts. Secure loose outdoor objects.';
     severity = 'warning';
-  } else if (condition.includes('snow') || weatherData.main.temp < 273.15) { // Freezing
+  } else if (condition.includes('snow') || isFreezing) { 
     alertMessage = 'Frost & Freezing Warning: Roads may be icy. Drive carefully.';
     severity = 'warning';
-  } else if (weatherData.main.temp > 308.15) { // > 35 C
+  } else if (isExtremeHeat) { 
     alertMessage = 'Extreme Heat Advisory: Stay hydrated and avoid prolonged sun exposure.';
     severity = 'danger';
   } else if (condition.includes('rain')) {

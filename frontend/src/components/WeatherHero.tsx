@@ -3,7 +3,7 @@ import { TiltCard } from './TiltCard';
 import { AlertBanner } from './AlertBanner';
 
 export const WeatherHero = ({ 
-  weather, isLightMode, cityName, currentTemp, time, description, highTemp, lowTemp, unitSymbol, weatherData
+  weather, isLightMode, cityName, currentTemp, time, description, highTemp, lowTemp, unitSymbol, weatherData, unit
 }: any) => {
   const HeroIcon = weather === 'sunny' ? Sun : weather === 'cloudy' ? Cloud : weather === 'rainy' ? CloudRain : CloudSnow;
 
@@ -29,7 +29,7 @@ export const WeatherHero = ({
           </div>
 
           <div style={{ marginTop: '1rem', width: '100%' }}>
-            <AlertBanner weatherData={weatherData} />
+            <AlertBanner weatherData={weatherData} unit={unit} />
           </div>
         </div>
       </TiltCard>

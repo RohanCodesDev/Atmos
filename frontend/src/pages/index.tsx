@@ -275,6 +275,7 @@ export default function Home() {
               lowTemp={displayLowTemp}
               unitSymbol={unitSymbol}
               weatherData={weatherData}
+              unit={unit}
             />
             <WeeklyForecast 
               dailyForecast={dailyForecast}
