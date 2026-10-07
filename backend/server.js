@@ -28,15 +28,34 @@ app.get('/api/weather', async (req, res) => {
 
     let weatherUrl = '';
     let forecastUrl = '';
+    let finalLat = lat;
+    let finalLon = lon;
+    let resolvedName = '';
 
-    if (lat && lon) {
-      weatherUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=${units}&appid=${apiKey}`;
-      forecastUrl = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&units=${units}&appid=${apiKey}`;
-    } else {
-      weatherUrl = `https://api.openweathermap.org/data/2.5/weather?q=${encodeURIComponent(city)}&units=${units}&appid=${apiKey}`;
-      forecastUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${encodeURIComponent(city)}&units=${units}&appid=${apiKey}`;
-
+    // If coordinates are not provided, resolve the city/location name using Geocoding API
+    if (!finalLat || !finalLon) {
+      const geoUrl = `https://api.openweathermap.org/geo/1.0/direct?q=${encodeURIComponent(city)}&limit=1&appid=${apiKey}`;
+      const geoResponse = await fetch(geoUrl);
+      if (!geoResponse.ok) {
+        throw new Error(`Geocoding API error: ${geoResponse.statusText}`);
+      }
+      const geoData = await geoResponse.json();
+      
+      if (!geoData || geoData.length === 0) {
+        return res.status(404).json({ error: 'Location not found' });
+      }
+      
+      finalLat = geoData[0].lat;
+      finalLon = geoData[0].lon;
+      
+      // If state and country are available, construct a nicer name (e.g. "Dallas, Texas, US")
+      const nameParts = [geoData[0].name, geoData[0].state, geoData[0].country].filter(Boolean);
+      resolvedName = nameParts.join(', ');
     }
+
+    // Now always use lat/lon for weather and forecast APIs
+    weatherUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${finalLat}&lon=${finalLon}&units=${units}&appid=${apiKey}`;
+    forecastUrl = `https://api.openweathermap.org/data/2.5/forecast?lat=${finalLat}&lon=${finalLon}&units=${units}&appid=${apiKey}`;
 
     // Call OpenWeather Current Weather API
     const weatherResponse = await fetch(weatherUrl);
@@ -50,7 +69,12 @@ app.get('/api/weather', async (req, res) => {
 
     const weatherData = await weatherResponse.json();
 
-    // If using coordinates, OpenWeather often returns the neighborhood name (e.g. "Bara Bazar").
+    // If we resolved the name via direct geocoding, use that beautiful string!
+    if (resolvedName) {
+      weatherData.name = resolvedName;
+    }
+
+    // If using coordinates directly (e.g. from the Fetch Location button), OpenWeather often returns the neighborhood name.
     // We use the Reverse Geocoding API to get the actual city name (e.g. "Kolkata").
     if (lat && lon) {
       try {
