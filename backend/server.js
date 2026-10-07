@@ -26,57 +26,28 @@ app.get('/api/weather', async (req, res) => {
       return res.status(500).json({ error: 'Server configuration error: API key missing' });
     }
 
-    let weatherUrl = '';
-    let forecastUrl = '';
-    let finalLat = lat;
-    let finalLon = lon;
+    let weatherData = null;
+    let forecastData = null;
     let resolvedName = '';
 
-    // If coordinates are not provided, resolve the city/location name using Geocoding API
-    if (!finalLat || !finalLon) {
-      const geoUrl = `https://api.openweathermap.org/geo/1.0/direct?q=${encodeURIComponent(city)}&limit=1&appid=${apiKey}`;
-      const geoResponse = await fetch(geoUrl);
-      if (!geoResponse.ok) {
-        throw new Error(`Geocoding API error: ${geoResponse.statusText}`);
-      }
-      const geoData = await geoResponse.json();
-      
-      if (!geoData || geoData.length === 0) {
-        return res.status(404).json({ error: 'Location not found' });
-      }
-      
-      finalLat = geoData[0].lat;
-      finalLon = geoData[0].lon;
-      
-      // If state and country are available, construct a nicer name (e.g. "Dallas, Texas, US")
-      const nameParts = [geoData[0].name, geoData[0].state, geoData[0].country].filter(Boolean);
-      resolvedName = nameParts.join(', ');
+    // Edge case mappings for common regions that OpenWeather struggles with
+    let searchQuery = city;
+    if (city && city.toLowerCase().trim() === 'kashmir') {
+      searchQuery = 'Srinagar';
     }
 
-    // Now always use lat/lon for weather and forecast APIs
-    weatherUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${finalLat}&lon=${finalLon}&units=${units}&appid=${apiKey}`;
-    forecastUrl = `https://api.openweathermap.org/data/2.5/forecast?lat=${finalLat}&lon=${finalLon}&units=${units}&appid=${apiKey}`;
-
-    // Call OpenWeather Current Weather API
-    const weatherResponse = await fetch(weatherUrl);
-
-    if (!weatherResponse.ok) {
-      if (weatherResponse.status === 404) {
-        return res.status(404).json({ error: 'Location not found' });
-      }
-      throw new Error(`OpenWeather API error: ${weatherResponse.statusText}`);
-    }
-
-    const weatherData = await weatherResponse.json();
-
-    // If we resolved the name via direct geocoding, use that beautiful string!
-    if (resolvedName) {
-      weatherData.name = resolvedName;
-    }
-
-    // If using coordinates directly (e.g. from the Fetch Location button), OpenWeather often returns the neighborhood name.
-    // We use the Reverse Geocoding API to get the actual city name (e.g. "Kolkata").
     if (lat && lon) {
+      // 1. Fetch by exact coordinates
+      const weatherUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=${units}&appid=${apiKey}`;
+      const forecastUrl = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&units=${units}&appid=${apiKey}`;
+      
+      const [wRes, fRes] = await Promise.all([fetch(weatherUrl), fetch(forecastUrl)]);
+      if (!wRes.ok) throw new Error(`Weather API error: ${wRes.statusText}`);
+      
+      weatherData = await wRes.json();
+      forecastData = fRes.ok ? await fRes.json() : null;
+
+      // Reverse geocode to get a better name instead of neighborhood
       try {
         const geoResponse = await fetch(`https://api.openweathermap.org/geo/1.0/reverse?lat=${lat}&lon=${lon}&limit=1&appid=${apiKey}`);
         if (geoResponse.ok) {
@@ -86,13 +57,50 @@ app.get('/api/weather', async (req, res) => {
           }
         }
       } catch (e) {
-        console.error('Geocoding API Error:', e.message);
+        console.error('Reverse Geocoding API Error:', e.message);
       }
+
+    } else {
+      // 2. Fetch by query string
+      let weatherUrl = `https://api.openweathermap.org/data/2.5/weather?q=${encodeURIComponent(searchQuery)}&units=${units}&appid=${apiKey}`;
+      let wRes = await fetch(weatherUrl);
+
+      // 3. If standard search fails, fallback to Geocoding API (good for states/countries)
+      if (wRes.status === 404) {
+        const geoUrl = `https://api.openweathermap.org/geo/1.0/direct?q=${encodeURIComponent(searchQuery)}&limit=1&appid=${apiKey}`;
+        const geoResponse = await fetch(geoUrl);
+        const geoData = geoResponse.ok ? await geoResponse.json() : [];
+        
+        if (geoData && geoData.length > 0) {
+          const fallbackLat = geoData[0].lat;
+          const fallbackLon = geoData[0].lon;
+          weatherUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${fallbackLat}&lon=${fallbackLon}&units=${units}&appid=${apiKey}`;
+          wRes = await fetch(weatherUrl);
+          
+          // Construct nice resolved name without duplicates (e.g. avoids "IN, IN")
+          const nameParts = [geoData[0].name, geoData[0].state, geoData[0].country].filter(Boolean);
+          resolvedName = [...new Set(nameParts)].join(', ');
+        }
+      }
+
+      if (!wRes.ok) {
+        if (wRes.status === 404) return res.status(404).json({ error: 'Location not found' });
+        throw new Error(`Weather API error: ${wRes.statusText}`);
+      }
+      
+      weatherData = await wRes.json();
+      
+      if (resolvedName) {
+        weatherData.name = resolvedName;
+      }
+
+      // Fetch forecast using the resolved coordinates
+      const forecastUrl = `https://api.openweathermap.org/data/2.5/forecast?lat=${weatherData.coord.lat}&lon=${weatherData.coord.lon}&units=${units}&appid=${apiKey}`;
+      const fRes = await fetch(forecastUrl);
+      forecastData = fRes.ok ? await fRes.json() : null;
     }
 
-    // Call OpenWeather Forecast API (5 day / 3 hour)
-    const forecastResponse = await fetch(forecastUrl);
-    const forecastData = forecastResponse.ok ? await forecastResponse.json() : null;
+
 
     // Fetch Air Quality Index (AQI)
     let aqiData = null;
