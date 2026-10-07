@@ -18,16 +18,15 @@ export const Navbar = ({
       {/* Search Bar */}
       <div className="search-container anim-fade-in" style={{ display: 'flex', alignItems: 'center', gap: '1rem', width: '100%', maxWidth: '500px', pointerEvents: 'auto' }}>
         <style dangerouslySetInnerHTML={{__html: `
-          .search-input::placeholder {
+          .search-wrapper input::placeholder {
             color: ${textColor};
             opacity: 0.5;
           }
         `}} />
-        <TiltCard style={{ position: 'relative', width: '100%', borderRadius: '50px', padding: 0 }}>
-          <Search size={20} style={{ position: 'absolute', left: '1.25rem', top: '50%', transform: 'translateY(-50%)', opacity: 0.6 }} />
+        <div className="search-wrapper glass" style={{ display: 'flex', alignItems: 'center', padding: '0.85rem 1.25rem', width: '100%', borderRadius: '50px' }}>
+          <Search size={20} style={{ opacity: 0.6, flexShrink: 0 }} />
           <input 
             type="text" 
-            className="search-input"
             placeholder="Search for a city..." 
             onKeyDown={(e) => {
               if (e.key === 'Enter' && onSearch) {
@@ -36,17 +35,16 @@ export const Navbar = ({
             }}
             style={{ 
               width: '100%', 
-              padding: '0.85rem 1rem 0.85rem 3.5rem', 
-              borderRadius: '50px', 
+              marginLeft: '0.75rem',
               fontSize: '1rem',
               background: 'transparent',
               border: 'none',
               color: textColor,
               outline: 'none',
-              transition: 'background 0.3s'
+              padding: 0
             }}
           />
-        </TiltCard>
+        </div>
         <TiltCard style={{ borderRadius: '50px', padding: 0, flexShrink: 0 }}>
           <button title="Fetch your location" onClick={onLocate} style={{ padding: '0.9rem 1.2rem', borderRadius: '50px', display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer', border: 'none', background: 'transparent', color: textColor }}>
             <Navigation size={18} />

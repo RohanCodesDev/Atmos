@@ -20,10 +20,17 @@ export const ControlPanel = ({
           padding: '1.5rem', 
           display: 'flex',
           flexDirection: 'column',
-          gap: '2rem',
-          width: '240px'
+          gap: '1.5rem',
+          width: '240px',
+          background: isLightMode ? '#ffffff' : '#0f172a',
+          backdropFilter: 'none',
+          boxShadow: '0 20px 50px rgba(0,0,0,0.5)'
         }}
       >
+        <div style={{ paddingBottom: '0.5rem', borderBottom: isLightMode ? '1px solid rgba(0,0,0,0.1)' : '1px solid rgba(255,255,255,0.1)' }}>
+          <h2 style={{ fontSize: '1.1rem', fontWeight: 600, margin: 0, color: textColor }}>Developer Settings</h2>
+          <span style={{ fontSize: '0.75rem', opacity: 0.6, color: textColor }}>(Testing Only)</span>
+        </div>
         {/* Time Toggles */}
         <div>
           <label style={{ display: 'block', marginBottom: '0.75rem', fontSize: '0.75rem', fontWeight: 600, opacity: 0.6, textTransform: 'uppercase', letterSpacing: '0.1em' }}>
