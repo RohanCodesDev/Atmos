@@ -1,12 +1,11 @@
 # 🌪️ Atmos
 
-**Atmos** is a premium, high-fidelity weather dashboard built with Next.js. It delivers real-time meteorological data through an immersive, dynamic glassmorphic interface that responds directly to current weather conditions.
+**Atmos** is a premium, high-fidelity weather dashboard built with Next.js and Express. It delivers real-time meteorological data through an immersive, dynamic glassmorphic interface that responds directly to current weather conditions.
 
 Designed for both striking aesthetics and deep technical utility, Atmos seamlessly scales from massive desktop data terminals down to compact, mobile-friendly mobile views.
 
-![Atmos Architecture](https://img.shields.io/badge/Architecture-Next.js_Fullstack-black?style=for-the-badge&logo=next.js)
+![Atmos Architecture](https://img.shields.io/badge/Architecture-Next.js_+_Express-black?style=for-the-badge&logo=nodedotjs)
 ![React](https://img.shields.io/badge/Frontend-React_18-blue?style=for-the-badge&logo=react)
-![Deployment](https://img.shields.io/badge/Deployment-Vercel_Ready-000000?style=for-the-badge&logo=vercel)
 
 ## ✨ Core Features
 
@@ -18,48 +17,57 @@ Designed for both striking aesthetics and deep technical utility, Atmos seamless
   * 5-Day and Hourly forecast tracking.
   * Critical Weather Event Banners (e.g., Extreme Heat, Freezing Warnings).
 * **Fully Responsive**: A highly resilient flexbox and CSS Grid layout that elegantly degrades from a multi-column desktop command center down to a single-column mobile feed.
-* **Serverless Backend**: Built completely on Next.js API Routes. No separate backend server required.
+* **Robust Express API**: A dedicated Express.js backend that securely wraps OpenWeatherMap APIs, handles geocoding, and streams formatted data to the client.
 
 ## 🛠️ Tech Stack
 
-* **Framework**: Next.js (Pages Router)
+* **Frontend**: Next.js (Pages Router), React, Recharts, Lucide React
 * **Styling**: Vanilla CSS (CSS Modules & Global Tokens)
-* **Icons**: Lucide React
-* **Data Visualization**: Recharts
+* **Backend**: Node.js, Express.js
 * **APIs**: OpenWeatherMap (Current, Forecast, Air Pollution, Reverse Geocoding)
 
 ## 🚀 Quick Start (Local Development)
 
-Because Atmos uses Next.js API Routes, the entire fullstack application lives inside the `frontend/` directory. 
+The repository is split into two directories: `frontend/` (Next.js) and `backend/` (Express API). You will need to run both concurrently.
 
-### 1. Clone & Install
+### 1. Clone the Repository
 ```bash
 git clone https://github.com/RohanCodesDev/Atmos.git
-cd Atmos/frontend
+cd Atmos
+```
+
+### 2. Set Up the Backend
+Navigate to the `backend/` directory, install dependencies, and create an environment file.
+```bash
+cd backend
 npm install
 ```
-
-### 2. Environment Variables
-Create a `.env.local` file inside the `frontend/` directory:
+Create a `.env` file in the `backend/` directory:
 ```env
 OPENWEATHER_API_KEY=your_openweathermap_api_key_here
+PORT=5000
 ```
-
-### 3. Spin up the Atmosphere
+Start the backend server:
 ```bash
 npm run dev
 ```
-Navigate to `http://localhost:3000` to view the dashboard.
 
-## ☁️ Vercel Deployment (Production)
+### 3. Set Up the Frontend
+Open a new terminal window, navigate to the `frontend/` directory, and install dependencies.
+```bash
+cd frontend
+npm install
+```
+Start the frontend server:
+```bash
+npm run dev
+```
 
-Atmos is completely optimized for zero-config Vercel deployment. 
+Navigate to `http://localhost:3000` to view the dashboard! The frontend will automatically communicate with the Express backend running on `http://localhost:5000`.
 
-1. Push your code to a GitHub repository.
-2. Import the project into the [Vercel Dashboard](https://vercel.com/new).
-3. **Important**: Set the **Root Directory** to `frontend`.
-4. Add your `OPENWEATHER_API_KEY` to the Vercel Environment Variables.
-5. Click **Deploy**. Vercel will automatically provision the React UI and map the `/api/weather` endpoints to edge functions.
+## ☁️ Deployment
 
----
-*Note: The legacy `backend/` directory is retained for reference but is no longer actively required for deployment, as its Express routing has been successfully ported into the Next.js API infrastructure.*
+To deploy this application, you must host both the frontend and the backend.
+
+- **Frontend**: Can be deployed seamlessly to [Vercel](https://vercel.com/) by connecting the repository and setting the Root Directory to `frontend`.
+- **Backend**: Can be deployed to services like Render, Heroku, or DigitalOcean Apps. Ensure you set the `OPENWEATHER_API_KEY` environment variable on your hosting provider, and update the frontend's fetch URL to point to your deployed backend URL.

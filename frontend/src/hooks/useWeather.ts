@@ -18,7 +18,7 @@ export const useWeather = (defaultCity: string = 'San Francisco') => {
     setLoading(true);
     setError('');
     try {
-      let url = `/api/weather?units=${unit}&`;
+      let url = `http://localhost:5000/api/weather?units=${unit}&`;
       if (params.city) url += `city=${encodeURIComponent(params.city)}`;
       else if (params.lat && params.lon) url += `lat=${params.lat}&lon=${params.lon}`;
       else return;
