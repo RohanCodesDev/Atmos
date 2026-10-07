@@ -28,12 +28,12 @@ export const AqiCard = ({ aqiData, isLightMode }: any) => {
            <Activity size={16} /> Air Quality Index
         </h3>
         
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '2rem' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '1.25rem', flex: 1 }}>
             <div style={{ 
-              width: '60px', height: '60px', borderRadius: '50%', 
+              width: '60px', height: '60px', borderRadius: '12px', 
               background: info.color, display: 'flex', justifyContent: 'center', alignItems: 'center',
-              fontSize: '1.5rem', fontWeight: 700, color: '#fff', boxShadow: `0 0 20px ${info.color}80`
+              fontSize: '1.75rem', fontWeight: 700, color: '#fff', boxShadow: `0 0 20px ${info.color}80`, flexShrink: 0
             }}>
               {aqiLevel}
             </div>
@@ -43,22 +43,22 @@ export const AqiCard = ({ aqiData, isLightMode }: any) => {
             </div>
           </div>
           
-          <div style={{ display: 'flex', justifyContent: 'space-between', gap: '1rem', borderTop: `1px solid ${isLightMode ? 'rgba(0,0,0,0.1)' : 'rgba(255,255,255,0.1)'}`, paddingTop: '1rem' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', gap: '2rem', flex: 1, borderLeft: `1px solid ${isLightMode ? 'rgba(0,0,0,0.1)' : 'rgba(255,255,255,0.1)'}`, paddingLeft: '2rem' }}>
              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.2rem' }}>
                 <span style={{ fontSize: '0.75rem', opacity: 0.6, fontWeight: 600 }}>PM2.5</span>
-                <span style={{ fontSize: '1rem', fontWeight: 500 }}>{components.pm2_5.toFixed(1)}</span>
+                <span style={{ fontSize: '1.1rem', fontWeight: 500 }}>{components.pm2_5.toFixed(1)}</span>
              </div>
              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.2rem' }}>
                 <span style={{ fontSize: '0.75rem', opacity: 0.6, fontWeight: 600 }}>PM10</span>
-                <span style={{ fontSize: '1rem', fontWeight: 500 }}>{components.pm10.toFixed(1)}</span>
+                <span style={{ fontSize: '1.1rem', fontWeight: 500 }}>{components.pm10.toFixed(1)}</span>
              </div>
              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.2rem' }}>
                 <span style={{ fontSize: '0.75rem', opacity: 0.6, fontWeight: 600 }}>OZONE</span>
-                <span style={{ fontSize: '1rem', fontWeight: 500 }}>{components.o3.toFixed(1)}</span>
+                <span style={{ fontSize: '1.1rem', fontWeight: 500 }}>{components.o3.toFixed(1)}</span>
              </div>
              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.2rem' }}>
                 <span style={{ fontSize: '0.75rem', opacity: 0.6, fontWeight: 600 }}>NO2</span>
-                <span style={{ fontSize: '1rem', fontWeight: 500 }}>{components.no2.toFixed(1)}</span>
+                <span style={{ fontSize: '1.1rem', fontWeight: 500 }}>{components.no2.toFixed(1)}</span>
              </div>
           </div>
         </div>

@@ -15,8 +15,6 @@ import { WeatherStats } from '../components/WeatherStats';
 import { AqiCard } from '../components/AqiCard';
 import { PrecipitationChart } from '../components/PrecipitationChart';
 import { SunArc } from '../components/SunArc';
-import { MapCard } from '../components/MapCard';
-
 const TEMP_MAP: Record<string, string> = {
   sunny: '75', cloudy: '62', rainy: '55', snow: '28',
 };
@@ -232,7 +230,7 @@ export default function Home() {
           </div>
         )}
 
-        <div style={{ zIndex: 10, display: 'flex', gap: '2rem', width: '100%', maxWidth: '1400px', padding: '7rem 2rem 3rem 2rem', boxSizing: 'border-box', opacity: loading ? 0.3 : 1, transition: 'opacity 0.5s ease', pointerEvents: loading ? 'none' : 'auto' }}>
+        <div style={{ zIndex: 10, display: 'flex', alignItems: 'flex-start', gap: '2rem', width: '100%', maxWidth: '1400px', padding: '7rem 2rem 3rem 2rem', boxSizing: 'border-box', opacity: loading ? 0.3 : 1, transition: 'opacity 0.5s ease', pointerEvents: loading ? 'none' : 'auto' }}>
           
           <div style={{ flex: '0 0 320px', display: 'flex', flexDirection: 'column', gap: '2rem' }}>
             <WeatherHero 
@@ -252,6 +250,7 @@ export default function Home() {
               isLightMode={isLightMode}
               unitSymbol={unitSymbol}
             />
+
             <SunArc 
               sunriseTime={sunriseTime}
               sunsetTime={sunsetTime}
@@ -261,20 +260,14 @@ export default function Home() {
           </div>
 
           <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+            {/* 1. Today's Forecast */}
             <HourlyForecast 
               hourlyForecast={hourlyForecast}
               isLightMode={isLightMode}
               unitSymbol={unitSymbol}
             />
-            <PrecipitationChart 
-              hourlyForecast={hourlyForecast}
-              isLightMode={isLightMode}
-              unitSymbol={unitSymbol}
-            />
-            <AqiCard 
-              aqiData={aqiData}
-              isLightMode={isLightMode}
-            />
+            
+            {/* 2. Small Tiled Feature Cards */}
             <WeatherStats 
               feelsLike={feelsLike}
               currentTemp={currentTemp}
@@ -289,8 +282,16 @@ export default function Home() {
               unitSymbol={unitSymbol}
               unit={unit}
             />
-            <MapCard 
-              weatherData={weatherData}
+
+            {/* 3. Big Cards */}
+            <PrecipitationChart 
+              hourlyForecast={hourlyForecast}
+              isLightMode={isLightMode}
+              unitSymbol={unitSymbol}
+            />
+            <AqiCard 
+              aqiData={aqiData}
+              isLightMode={isLightMode}
             />
           </div>
         </div>

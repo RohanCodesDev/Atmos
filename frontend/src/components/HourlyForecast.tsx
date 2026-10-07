@@ -8,7 +8,7 @@ export const HourlyForecast = ({ hourlyForecast, isLightMode, unitSymbol }: any)
         <h3 style={{ fontSize: '0.85rem', textTransform: 'uppercase', letterSpacing: '0.1em', opacity: 0.7, marginBottom: '1.5rem', display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
            <Wind size={16} /> Today's Forecast
          </h3>
-        <div style={{ display: 'flex', gap: '2rem', overflowX: 'auto', paddingBottom: '0.5rem', scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', gap: '1rem', overflowX: 'auto', paddingBottom: '0.5rem', scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
           <style dangerouslySetInnerHTML={{__html: `::-webkit-scrollbar { display: none; }`}} />
           {hourlyForecast.length > 0 ? hourlyForecast.map((hf: any, i: number) => {
              const isRainy = hf.condition.includes('rain');
