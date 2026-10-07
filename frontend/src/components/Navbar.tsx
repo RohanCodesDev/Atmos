@@ -154,10 +154,7 @@ export const Navbar = ({
                   onMouseEnter={(e) => e.currentTarget.style.background = isLightMode ? 'rgba(0,0,0,0.05)' : 'rgba(255,255,255,0.05)'}
                   onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
                 >
-                  <div style={{ fontWeight: 500 }}>{s.name}</div>
-                  <div style={{ fontSize: '0.8rem', opacity: 0.6, marginTop: '2px' }}>
-                    {[s.state, s.country].filter(Boolean).join(', ')}
-                  </div>
+                  <div style={{ fontWeight: 500 }}>{s.displayName}</div>
                 </div>
               ))}
             </div>
