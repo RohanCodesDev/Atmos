@@ -37,7 +37,7 @@ Build a dynamic weather application that fetches and displays real-time weather 
 4. Error handling: 400 (empty city), 404 (city not found), 500 (server error).
 
 ### Phase 3: Frontend — UI & Components
-**Component tree:**
+
 ```
 src/components/
 ├── Layout.tsx          ← Full-page background handler + Head

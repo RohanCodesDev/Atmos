@@ -84,7 +84,8 @@ body {
 }
 
 .search-input::placeholder {
-  color: rgba(255, 255, 255, 0.40);
+  color: inherit;
+  opacity: 0.6;
 }
 
 .search-input:focus {
