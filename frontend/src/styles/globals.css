@@ -251,6 +251,8 @@ body {
     flex-direction: column !important;
     padding: 1rem !important;
     gap: 1rem !important;
+    position: absolute !important;
+    pointer-events: auto !important;
   }
   .search-container {
     max-width: 100% !important;
