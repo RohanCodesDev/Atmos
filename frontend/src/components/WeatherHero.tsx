@@ -9,15 +9,15 @@ export const WeatherHero = ({
 
   return (
     <div className="anim-fade-in-up">
-      <TiltCard style={{ padding: '3rem 2rem' }}>
+      <TiltCard className="weather-hero-card" style={{ padding: '3rem 2rem' }}>
         <div style={{ textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1rem' }}>
           
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem', opacity: 0.9, fontSize: '1.2rem', fontWeight: 400 }}>
             <MapPin size={20} />
             <span>{cityName}</span>
           </div>
-          <HeroIcon size={90} strokeWidth={1} style={{ margin: '0.5rem 0' }} />
-          <h1 style={{ fontSize: '6rem', fontWeight: 300, letterSpacing: '-0.02em', margin: 0, lineHeight: 1 }}>
+          <HeroIcon className="weather-hero-icon" size={90} strokeWidth={1} style={{ margin: '0.5rem 0' }} />
+          <h1 className="weather-hero-temp" style={{ fontSize: '6rem', fontWeight: 300, letterSpacing: '-0.02em', margin: 0, lineHeight: 1 }}>
             {currentTemp}<span style={{ fontSize: '3.5rem', opacity: 0.8, fontWeight: 200, verticalAlign: 'top', marginLeft: '0.2rem' }}>{unitSymbol}</span>
           </h1>
           <p style={{ opacity: 0.8, fontSize: '1.25rem', textTransform: 'capitalize', letterSpacing: '0.05em', marginTop: '0.25rem' }}>

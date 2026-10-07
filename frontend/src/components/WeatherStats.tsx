@@ -5,7 +5,7 @@ export const WeatherStats = ({
   feelsLike, currentTemp, windSpeed, windDeg, time, sunriseTime, sunsetTime, humidity, visibility, pressure, unitSymbol, unit 
 }: any) => {
   return (
-    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '2rem', flex: 1 }}>
+    <div className="weather-stats-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '2rem', flex: 1 }}>
        <MetricCard 
           delay="delay-100" 
           title="Feels Like" 

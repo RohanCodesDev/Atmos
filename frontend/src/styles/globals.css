@@ -230,3 +230,80 @@ body {
   90% { opacity: 1; }
   100% { transform: translateY(110vh) translateX(40px) rotate(360deg); opacity: 0; }
 }
+
+/* =============================================
+   Responsive Design (Mobile & Tablet)
+   ============================================= */
+@media (max-width: 1024px) {
+  .dashboard-layout {
+    flex-direction: column !important;
+  }
+  .left-column {
+    flex: none !important;
+    width: 100% !important;
+  }
+  .right-column {
+    width: 100% !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .navbar-container {
+    flex-direction: column !important;
+    padding: 1rem !important;
+    gap: 1rem !important;
+  }
+  .search-container {
+    max-width: 100% !important;
+    width: 100% !important;
+    flex-direction: column !important;
+  }
+  .search-container > div {
+    width: 100% !important;
+  }
+  .search-container button {
+    width: 100% !important;
+    justify-content: center !important;
+  }
+  .settings-container {
+    display: none !important;
+  }
+  .weather-stats-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+  .aqi-flex-container {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 1.5rem !important;
+  }
+  .aqi-divider {
+    border-left: none !important;
+    border-top: 1px solid rgba(255,255,255,0.2) !important;
+    padding-left: 0 !important;
+    padding-top: 1.5rem !important;
+    width: 100% !important;
+  }
+  .dashboard-wrapper {
+    padding: 15rem 1rem 2rem 1rem !important;
+  }
+  .weather-hero-card {
+    padding: 1.5rem 1rem !important;
+  }
+  .weather-hero-icon {
+    width: 64px !important;
+    height: 64px !important;
+    margin: 0 !important;
+  }
+  .weather-hero-temp {
+    font-size: 4.5rem !important;
+  }
+  .weather-hero-temp span {
+    font-size: 2.5rem !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .weather-stats-grid {
+    grid-template-columns: 1fr !important;
+  }
+}

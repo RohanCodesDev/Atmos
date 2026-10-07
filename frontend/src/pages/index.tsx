@@ -230,9 +230,9 @@ export default function Home() {
           </div>
         )}
 
-        <div style={{ zIndex: 10, display: 'flex', alignItems: 'flex-start', gap: '2rem', width: '100%', maxWidth: '1400px', padding: '7rem 2rem 3rem 2rem', boxSizing: 'border-box', opacity: loading ? 0.3 : 1, transition: 'opacity 0.5s ease', pointerEvents: loading ? 'none' : 'auto' }}>
+        <div className="dashboard-wrapper dashboard-layout" style={{ zIndex: 10, display: 'flex', alignItems: 'flex-start', gap: '2rem', width: '100%', maxWidth: '1400px', padding: '7rem 2rem 3rem 2rem', boxSizing: 'border-box', opacity: loading ? 0.3 : 1, transition: 'opacity 0.5s ease', pointerEvents: loading ? 'none' : 'auto' }}>
           
-          <div style={{ flex: '0 0 320px', display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+          <div className="left-column" style={{ flex: '0 0 320px', display: 'flex', flexDirection: 'column', gap: '2rem' }}>
             <WeatherHero 
               weather={weather}
               isLightMode={isLightMode}
@@ -259,7 +259,7 @@ export default function Home() {
             />
           </div>
 
-          <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+          <div className="right-column" style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '2rem' }}>
             {/* 1. Today's Forecast */}
             <HourlyForecast 
               hourlyForecast={hourlyForecast}

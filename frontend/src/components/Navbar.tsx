@@ -5,7 +5,7 @@ export const Navbar = ({
   textColor, isLightMode, isControlsOpen, setIsControlsOpen, onSearch, onLocate, unit, setUnit 
 }: any) => {
   return (
-    <div style={{ position: 'fixed', top: 0, left: 0, right: 0, padding: '2rem 3rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center', zIndex: 30, pointerEvents: 'none' }}>
+    <div className="navbar-container" style={{ position: 'fixed', top: 0, left: 0, right: 0, padding: '2rem 3rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center', zIndex: 30, pointerEvents: 'none' }}>
       
       {/* Logo */}
       <div style={{ pointerEvents: 'auto' }}>
@@ -16,11 +16,18 @@ export const Navbar = ({
       </div>
 
       {/* Search Bar */}
-      <div className="anim-fade-in" style={{ display: 'flex', alignItems: 'center', gap: '1rem', width: '100%', maxWidth: '500px', pointerEvents: 'auto' }}>
+      <div className="search-container anim-fade-in" style={{ display: 'flex', alignItems: 'center', gap: '1rem', width: '100%', maxWidth: '500px', pointerEvents: 'auto' }}>
+        <style dangerouslySetInnerHTML={{__html: `
+          .search-input::placeholder {
+            color: ${textColor};
+            opacity: 0.5;
+          }
+        `}} />
         <TiltCard style={{ position: 'relative', width: '100%', borderRadius: '50px', padding: 0 }}>
           <Search size={20} style={{ position: 'absolute', left: '1.25rem', top: '50%', transform: 'translateY(-50%)', opacity: 0.6 }} />
           <input 
             type="text" 
+            className="search-input"
             placeholder="Search for a city..." 
             onKeyDown={(e) => {
               if (e.key === 'Enter' && onSearch) {
@@ -49,7 +56,7 @@ export const Navbar = ({
       </div>
       
       {/* Settings Button & Unit Toggle (Top Right) */}
-      <div style={{ width: '200px', display: 'flex', justifyContent: 'flex-end', gap: '1rem', pointerEvents: 'auto' }}>
+      <div className="settings-container" style={{ width: '200px', display: 'flex', justifyContent: 'flex-end', gap: '1rem', pointerEvents: 'auto' }}>
         <TiltCard style={{ borderRadius: '50px', padding: 0 }}>
           <button 
             title="Toggle Units"
